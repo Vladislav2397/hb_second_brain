@@ -6,6 +6,7 @@ import {
     Patch,
     Param,
     Delete,
+    NotFoundException,
 } from '@nestjs/common'
 import { NotesService } from './notes.service'
 import { CreateNoteDto } from './dto/create-note.dto'
@@ -17,26 +18,48 @@ export class NotesController {
 
     @Post()
     create(@Body() createNoteDto: CreateNoteDto) {
-        return this.notesService.create(createNoteDto)
+        const note = this.notesService.create(createNoteDto)
+
+        return { note }
     }
 
     @Get()
     findAll() {
-        return this.notesService.findAll()
+        const notes = this.notesService.findAll()
+
+        return { notes }
     }
 
     @Get(':id')
     findOne(@Param('id') id: string) {
-        return this.notesService.findOne(+id)
+        const note = this.notesService.findOne(+id)
+
+        if (!note) {
+            throw new NotFoundException('Note not found')
+        }
+
+        return { note }
     }
 
     @Patch(':id')
     update(@Param('id') id: string, @Body() updateNoteDto: UpdateNoteDto) {
-        return this.notesService.update(+id, updateNoteDto)
+        const note = this.notesService.update(+id, updateNoteDto)
+
+        if (!note) {
+            throw new NotFoundException('Note not found')
+        }
+
+        return { note }
     }
 
     @Delete(':id')
     remove(@Param('id') id: string) {
-        return this.notesService.remove(+id)
+        const note = this.notesService.remove(+id)
+
+        if (!note) {
+            throw new NotFoundException('Note not found')
+        }
+
+        return { note }
     }
 }
