@@ -1,29 +1,37 @@
 <template>
     <CenterLayout>
         <div :class="$style.root">
-            <h1 :class="$style.title">Authorization</h1>
+            <h1 :class="$style.title">Registration</h1>
             <form :class="$style.form">
                 <input
+                    v-model="name"
+                    type="text"
+                    name="name"
+                    placeholder="Name" />
+                <input
                     v-model="email"
+                    type="email"
                     name="email"
-                    placeholder="Email"
-                    type="email" />
+                    placeholder="Email" />
                 <input
                     v-model="password"
+                    type="password"
                     name="password"
-                    placeholder="Password"
-                    type="password" />
+                    placeholder="Password" />
+                <input
+                    v-model="repeatPassword"
+                    type="password"
+                    name="repeat-password"
+                    placeholder="Repeat Password" />
             </form>
             <button
                 type="submit"
-                @click="onClickLogin">
-                login
+                @click="onClickRegister">
+                register
             </button>
             <p>
-                Еще нет аккаунта?
-                <RouterLink :to="{ name: routeNames.register }">
-                    Регистрация
-                </RouterLink>
+                Уже есть аккаунт?
+                <RouterLink :to="{ name: routeNames.login }">Вход</RouterLink>
             </p>
         </div>
     </CenterLayout>
@@ -34,10 +42,12 @@ import { CenterLayout } from '@/shared/layouts/CenterLayout'
 import { routeNames } from '@/shared/lib/route-names'
 import { ref } from 'vue'
 
+const name = ref('')
 const email = ref('')
 const password = ref('')
+const repeatPassword = ref('')
 
-function onClickLogin() {
+function onClickRegister() {
     console.log('login')
 }
 </script>
