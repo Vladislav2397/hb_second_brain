@@ -1,9 +1,22 @@
 <template>
     <div :class="$style.root">
         <aside :class="$style.aside">
-            <RouterLink :to="{ name: routeNames.noteList }">Notes</RouterLink>
+            <RouterLink
+                :class="$style.link"
+                :to="{ name: routeNames.noteList }">
+                Notes
+            </RouterLink>
+            <RouterLink
+                :class="$style.link"
+                :to="{ name: routeNames.noteCreate }">
+                Create Note
+            </RouterLink>
             <div :class="$style.bottom">
-                <button :class="$style.logout">Logout</button>
+                <button
+                    :class="$style.logout"
+                    @click="onLogout">
+                    Logout
+                </button>
             </div>
         </aside>
         <main :class="$style.main">
@@ -14,8 +27,14 @@
 
 <script lang="ts" setup>
 import { routeNames } from '@/shared/lib/route-names'
+import { useRouter } from 'vue-router'
 
-//
+const router = useRouter()
+
+function onLogout() {
+    console.log('logout')
+    router.push({ name: routeNames.login })
+}
 </script>
 
 <style lang="scss" module>
@@ -35,7 +54,7 @@ import { routeNames } from '@/shared/lib/route-names'
     background-color: #f0f0f0;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 4px;
     padding: 24px;
     box-sizing: border-box;
 }
@@ -48,5 +67,15 @@ import { routeNames } from '@/shared/lib/route-names'
     padding: 24px 36px;
     max-width: 600px;
     flex-grow: 1;
+}
+
+.link {
+    padding: 12px;
+    color: #000;
+    border-radius: 8px;
+
+    &:hover {
+        background-color: #fff;
+    }
 }
 </style>

@@ -2,10 +2,15 @@
     <div :class="$style.root">
         <h1 :class="$style.title">Notes</h1>
         <div :class="$style.list">
-            <NoteCard
+            <RouterLink
                 v-for="note in notes"
                 :key="note.id"
-                :note="note" />
+                :to="{
+                    name: routeNames.noteEdit,
+                    params: { noteId: note.id },
+                }">
+                <NoteCard :note="note" />
+            </RouterLink>
         </div>
     </div>
 </template>
@@ -14,6 +19,7 @@
 import { Note } from '@/shared/api/contracts/note'
 import { NoteCard } from '@/entities/note/ui/NoteCard'
 import { onMounted, ref } from 'vue'
+import { routeNames } from '@/shared/lib/route-names'
 
 const notes = ref<Note[]>([])
 

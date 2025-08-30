@@ -3,4 +3,6 @@ export const routeNames = {
     register: 'register-page',
     home: 'home-page',
     noteList: 'note-list-page',
+    noteCreate: 'note-create-page',
+    noteEdit: 'note-edit-page',
 }
