@@ -1,0 +1,6 @@
+@forward '@/shared/styles/fonts.scss';
+@forward '@/shared/styles/reset.scss';
+
+html {
+    font-family: Inter, sans-serif;
+}

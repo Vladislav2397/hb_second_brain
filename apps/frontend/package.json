@@ -1,0 +1,38 @@
+{
+    "name": "@repo/frontend",
+    "private": true,
+    "version": "0.0.1",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vue-tsc -b && vite build",
+        "preview": "vite preview",
+        "lint": "eslint .",
+        "format": "prettier . --write",
+        "story:dev": "histoire dev",
+        "story:build": "histoire build",
+        "story:preview": "histoire preview",
+        "preinstall": "npx simple-git-hooks",
+        "check-types": "vue-tsc --build"
+    },
+    "dependencies": {
+        "vue": "^3.4.29",
+        "vue-router": "^4.5.1"
+    },
+    "devDependencies": {
+        "@glr/eslint-config": "github:Vladislav2397/eslint-config-preset-glr",
+        "@histoire/plugin-vue": "^1.0.0-alpha.3",
+        "@types/node": "^24.2.0",
+        "@vitejs/plugin-vue": "^6.0.1",
+        "@vitest/eslint-plugin": "^1.3.4",
+        "@vue/eslint-config-prettier": "^10.2.0",
+        "eslint": "^9.32.0",
+        "histoire": "^1.0.0-alpha.3",
+        "prettier": "3.6.2",
+        "sass": "^1.89.2",
+        "simple-git-hooks": "^2.13.1",
+        "typescript": "^5.2.2",
+        "vite": "^7.0.6",
+        "vue-tsc": "^3.0.5"
+    }
+}

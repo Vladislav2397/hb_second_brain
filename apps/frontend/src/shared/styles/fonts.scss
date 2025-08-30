@@ -1,0 +1,32 @@
+@mixin create-font-face(
+    $font-family,
+    $font-weight,
+    $font-style,
+    $file-font-name
+) {
+    @font-face {
+        font-family: $font-family;
+        src:
+            url(@/shared/fonts/#{$file-font-name}.woff2) format('woff2'),
+            url(@/shared/fonts/#{$file-font-name}.woff) format('woff');
+        font-weight: $font-weight;
+        font-style: $font-style;
+        font-display: swap;
+    }
+}
+
+/**
+ * [Дока font-weight](https://doka.guide/css/font-weight/)
+ * 100 — тонкое начертание (thin, hairline);
+ * 200 — сверхсветлое (extra light, ultra light);
+ * 300 — светлое (light);
+ * 400 — нормальное (normal, regular, book);
+ * 500 — среднее (medium);
+ * 600 — полужирное (semi bold, demi bold);
+ * 700 — жирное (bold);
+ * 800 — сверхжирное (extra bold, ultra bold);
+ * 900 — тяжёлое (black, heavy).
+ */
+
+@include create-font-face('Roboto', 400, normal, 'Roboto/Roboto-Regular');
+@include create-font-face('Roboto', 500, normal, 'Roboto/Roboto-Medium');
