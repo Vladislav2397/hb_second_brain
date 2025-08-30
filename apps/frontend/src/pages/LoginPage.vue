@@ -33,12 +33,15 @@
 import { CenterLayout } from '@/shared/layouts/CenterLayout'
 import { routeNames } from '@/shared/lib/route-names'
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 const email = ref('')
 const password = ref('')
 
+const router = useRouter()
 function onClickLogin() {
     console.log('login')
+    router.push({ name: routeNames.home })
 }
 </script>
 
