@@ -7,6 +7,7 @@ import HomePage from '@/pages/app/HomePage.vue'
 import NoteListPage from '@/pages/app/NoteListPage.vue'
 import NoteCreatePage from '@/pages/app/NoteCreatePage.vue'
 import NoteEditPage from '@/pages/app/NoteEditPage.vue'
+import ProfilePage from '@/pages/app/ProfilePage.vue'
 
 export const router = createRouter({
     history: createWebHistory(),
@@ -41,6 +42,11 @@ export const router = createRouter({
                     path: '/notes/:noteId',
                     name: routeNames.noteEdit,
                     component: NoteEditPage,
+                },
+                {
+                    path: '/profile',
+                    name: routeNames.profile,
+                    component: ProfilePage,
                 },
             ],
         },

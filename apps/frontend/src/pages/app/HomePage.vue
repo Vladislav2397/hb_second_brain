@@ -11,6 +11,11 @@
                 :to="{ name: routeNames.noteCreate }">
                 Create Note
             </RouterLink>
+            <RouterLink
+                :class="$style.link"
+                :to="{ name: routeNames.profile }">
+                Profile
+            </RouterLink>
             <div :class="$style.bottom">
                 <button
                     :class="$style.logout"

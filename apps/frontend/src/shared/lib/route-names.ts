@@ -5,4 +5,5 @@ export const routeNames = {
     noteList: 'note-list-page',
     noteCreate: 'note-create-page',
     noteEdit: 'note-edit-page',
+    profile: 'profile-page',
 }
