@@ -17,8 +17,17 @@ export class AuthController {
     @Public()
     @HttpCode(HttpStatus.OK)
     @Post('login')
-    signIn(@Body() signInDto: Record<string, any>) {
-        return this.authService.signIn(signInDto.username, signInDto.password)
+    signIn(@Body() signInDto: { email: string; password: string }) {
+        return this.authService.signIn(signInDto.email, signInDto.password)
+    }
+
+    @Public()
+    @HttpCode(HttpStatus.OK)
+    @Post('register')
+    signUp(
+        @Body() registerDto: { name: string; email: string; password: string },
+    ) {
+        return this.authService.signUp(registerDto)
     }
 
     @Get('profile')

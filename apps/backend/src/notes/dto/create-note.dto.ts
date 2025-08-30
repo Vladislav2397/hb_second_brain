@@ -1,4 +1,4 @@
 export class CreateNoteDto {
-    title: string
+    name: string
     content: string
 }
