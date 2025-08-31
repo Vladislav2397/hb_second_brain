@@ -1,0 +1,28 @@
+services:
+  frontend:
+    container_name: hb_second_brain.frontend
+    build:
+      context: .
+      dockerfile: ./apps/frontend/Dockerfile.turbo
+    restart: always
+    ports:
+      - 5200:5200
+    networks:
+      - app_network
+  backend:
+    container_name: hb_second_brain.backend
+    build:
+      context: .
+      dockerfile: ./apps/backend/Dockerfile.turbo
+    restart: always
+    ports:
+      - 5210:5210
+    environment:
+      - DATABASE_URL=file:./hb_second_brain.dev.db
+    networks:
+      - app_network
+
+# Define a network, which allows containers to communicate
+# with each other, by using their container name as a hostname
+networks:
+  app_network:

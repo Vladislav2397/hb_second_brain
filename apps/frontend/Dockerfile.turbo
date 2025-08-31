@@ -1,0 +1,66 @@
+FROM node:20.19.4-alpine AS base
+
+# This Dockerfile is copy-pasted into our main docs at /docs/handbook/deploying-with-docker.
+# Make sure you update both files!
+
+FROM base AS builder
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+RUN apk update
+RUN apk add --no-cache libc6-compat
+# Set working directory
+WORKDIR /app
+RUN npm install -g turbo
+COPY . .
+RUN turbo prune @repo/frontend --docker
+
+# Add lockfile and package.json's of isolated subworkspace
+FROM base AS installer
+RUN apk update
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
+
+# First install the dependencies (as they change less often)
+COPY --from=builder /app/out/json/ .
+RUN npm install --ignore-scripts --frozen-lockfile
+
+# Build the project
+COPY --from=builder /app/out/full/ .
+
+# Uncomment and use build args to enable remote caching
+# ARG TURBO_TEAM
+# ENV TURBO_TEAM=$TURBO_TEAM
+
+# ARG TURBO_TOKEN
+# ENV TURBO_TOKEN=$TURBO_TOKEN
+
+RUN cd apps/frontend && npm run build
+
+# Финальный этап с nginx
+FROM nginx:alpine AS production
+
+# Копирование собранных файлов
+COPY --from=installer /app/apps/frontend/dist /usr/share/nginx/html
+
+# Копирование nginx конфигурации
+COPY apps/frontend/nginx.conf /etc/nginx/nginx.conf
+
+# Создание пользователя для безопасности
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nextjs -u 1001
+
+# Изменение владельца файлов
+RUN chown -R nextjs:nodejs /usr/share/nginx/html
+RUN chown -R nextjs:nodejs /var/cache/nginx
+RUN chown -R nextjs:nodejs /var/log/nginx
+RUN chown -R nextjs:nodejs /etc/nginx/conf.d
+RUN chown -R nextjs:nodejs /run
+RUN chown -R nextjs:nodejs /var/run
+
+# Переключение на непривилегированного пользователя
+USER nextjs
+
+# Открытие порта
+EXPOSE 5200
+
+# Запуск nginx
+CMD ["nginx", "-g", "daemon off;"]
