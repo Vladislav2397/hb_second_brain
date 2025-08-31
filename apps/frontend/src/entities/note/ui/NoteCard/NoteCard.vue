@@ -1,6 +1,6 @@
 <template>
     <div :class="$style.root">
-        <h4>{{ note.title }}</h4>
+        <h4>{{ note.name }}</h4>
         <p>{{ note.content }}</p>
     </div>
 </template>
@@ -9,7 +9,7 @@
 import { Note } from '@/shared/api/contracts/note'
 
 const { note } = defineProps<{
-    note: Pick<Note, 'title' | 'content'>
+    note: Pick<Note, 'name' | 'content'>
 }>()
 </script>
 

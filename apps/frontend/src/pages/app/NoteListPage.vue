@@ -1,7 +1,11 @@
 <template>
     <div :class="$style.root">
         <h1 :class="$style.title">Notes</h1>
-        <div :class="$style.list">
+        <div v-if="isError">Error: {{ error?.message }}</div>
+        <div v-else-if="isLoading">Loading...</div>
+        <div
+            v-else
+            :class="$style.list">
             <RouterLink
                 v-for="note in notes"
                 :key="note.id"
@@ -16,19 +20,14 @@
 </template>
 
 <script lang="ts" setup>
-import { Note } from '@/shared/api/contracts/note'
 import { NoteCard } from '@/entities/note/ui/NoteCard'
-import { onMounted, ref } from 'vue'
+import { computed } from 'vue'
 import { routeNames } from '@/shared/lib/route-names'
+import { useNoteListQuery } from '@/shared/api/queries/note'
 
-const notes = ref<Note[]>([])
+const { data, isLoading, isError, error } = useNoteListQuery()
 
-onMounted(() => {
-    notes.value = [
-        { id: '1', title: 'Note 1', content: 'Content 1' },
-        { id: '2', title: 'Note 2', content: 'Content 2' },
-    ]
-})
+const notes = computed(() => data.value?.notes ?? [])
 </script>
 
 <style lang="scss" module>

@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import LoginPage from '@/pages/LoginPage.vue'
+import { LoginPage } from '@/pages/LoginPage'
 import RegistrationPage from '@/pages/RegistrationPage.vue'
 import { routeNames } from '@/shared/lib/route-names'
 import HomePage from '@/pages/app/HomePage.vue'

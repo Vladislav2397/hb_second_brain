@@ -16,6 +16,9 @@
         "check-types": "vue-tsc --build"
     },
     "dependencies": {
+        "@tanstack/vue-query": "^5.85.6",
+        "@withease/contracts": "^1.1.0",
+        "axios": "^1.11.0",
         "vue": "^3.4.29",
         "vue-router": "^4.5.1"
     },

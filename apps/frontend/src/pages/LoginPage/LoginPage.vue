@@ -14,6 +14,7 @@
                     placeholder="Password"
                     type="password" />
             </form>
+            <p v-if="isPending && !isError">Loading...</p>
             <button
                 type="submit"
                 @click="onClickLogin">
@@ -30,17 +31,18 @@
 </template>
 
 <script lang="ts" setup>
-import { CenterLayout } from '@/shared/layouts/CenterLayout'
-import { routeNames } from '@/shared/lib/route-names'
-import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
-const email = ref('')
-const password = ref('')
+import { CenterLayout } from '@/shared/layouts/CenterLayout'
+import { routeNames } from '@/shared/lib/route-names'
+
+import { useLoginModel } from './model'
+
+const { email, password, login, isPending, isError } = useLoginModel()
 
 const router = useRouter()
-function onClickLogin() {
-    console.log('login')
+async function onClickLogin() {
+    await login()
     router.push({ name: routeNames.home })
 }
 </script>
