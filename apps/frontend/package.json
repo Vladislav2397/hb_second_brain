@@ -12,6 +12,7 @@
         "story:dev": "histoire dev",
         "story:build": "histoire build",
         "story:preview": "histoire preview",
+        "codegen:api": "node bin/codegen-api.mjs",
         "preinstall": "npx simple-git-hooks",
         "check-types": "vue-tsc --build"
     },
