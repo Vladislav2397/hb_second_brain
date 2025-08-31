@@ -1,0 +1,533 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "HB Second Brain API",
+        "description": "API для системы управления заметками HB Second Brain",
+        "version": "1.0.0",
+        "termsOfService": "http://swagger.io/terms/",
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    },
+    "host": "localhost:5210",
+    "basePath": "/",
+    "tags": [
+        {
+            "name": "notes",
+            "description": "Операции с заметками пользователя"
+        },
+        {
+            "name": "auth",
+            "description": "Операции аутентификации и управления пользователем"
+        }
+    ],
+    "schemes": ["http", "https"],
+    "securityDefinitions": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header",
+            "description": "JWT токен в формате: Bearer {token}"
+        }
+    },
+    "paths": {
+        "/api/v1": {
+            "get": {
+                "tags": ["default"],
+                "summary": "Проверка работоспособности API",
+                "description": "Возвращает приветственное сообщение",
+                "operationId": "getHello",
+                "produces": ["text/plain"],
+                "responses": {
+                    "200": {
+                        "description": "Успешная операция",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/register": {
+            "post": {
+                "tags": ["auth"],
+                "summary": "Регистрация пользователя",
+                "description": "Создание нового пользователя в системе",
+                "operationId": "signUp",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/RegisterDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Пользователь успешно зарегистрирован",
+                        "schema": {
+                            "$ref": "#/definitions/LoginResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Неверные данные"
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/login": {
+            "post": {
+                "tags": ["auth"],
+                "summary": "Вход в систему",
+                "description": "Аутентификация пользователя по email и паролю",
+                "operationId": "signIn",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/LoginDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешная аутентификация",
+                        "schema": {
+                            "$ref": "#/definitions/LoginResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Неверные учетные данные"
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/me": {
+            "get": {
+                "tags": ["auth"],
+                "summary": "Получить информацию о текущем пользователе",
+                "description": "Возвращает данные текущего авторизованного пользователя",
+                "operationId": "getMe",
+                "produces": ["application/json"],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешная операция",
+                        "schema": {
+                            "$ref": "#/definitions/UserResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизован"
+                    },
+                    "404": {
+                        "description": "Пользователь не найден"
+                    }
+                }
+            },
+            "patch": {
+                "tags": ["auth"],
+                "summary": "Обновить данные пользователя",
+                "description": "Обновляет информацию о текущем пользователе",
+                "operationId": "updateMe",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UpdateUserDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Данные успешно обновлены",
+                        "schema": {
+                            "$ref": "#/definitions/UserResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Неверные данные"
+                    },
+                    "401": {
+                        "description": "Не авторизован"
+                    }
+                }
+            }
+        },
+        "/api/v1/notes": {
+            "get": {
+                "tags": ["notes"],
+                "summary": "Получить все заметки пользователя",
+                "description": "Возвращает список всех заметок текущего пользователя",
+                "operationId": "findAllNotes",
+                "produces": ["application/json"],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешная операция",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "notes": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/Note"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизован"
+                    }
+                }
+            },
+            "post": {
+                "tags": ["notes"],
+                "summary": "Создать новую заметку",
+                "description": "Создает новую заметку для текущего пользователя",
+                "operationId": "createNote",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/CreateNoteDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Заметка успешно создана",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "note": {
+                                    "$ref": "#/definitions/Note"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Неверные данные"
+                    },
+                    "401": {
+                        "description": "Не авторизован"
+                    }
+                }
+            }
+        },
+        "/api/v1/notes/{noteId}": {
+            "get": {
+                "tags": ["notes"],
+                "summary": "Получить заметку по ID",
+                "description": "Возвращает конкретную заметку пользователя по ID",
+                "operationId": "findOneNote",
+                "produces": ["application/json"],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "noteId",
+                        "in": "path",
+                        "description": "ID заметки",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешная операция",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "note": {
+                                    "$ref": "#/definitions/Note"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизован"
+                    },
+                    "404": {
+                        "description": "Заметка не найдена"
+                    }
+                }
+            },
+            "patch": {
+                "tags": ["notes"],
+                "summary": "Обновить заметку",
+                "description": "Обновляет существующую заметку пользователя",
+                "operationId": "updateNote",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "noteId",
+                        "in": "path",
+                        "description": "ID заметки",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UpdateNoteDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Заметка успешно обновлена",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "note": {
+                                    "$ref": "#/definitions/Note"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Неверные данные"
+                    },
+                    "401": {
+                        "description": "Не авторизован"
+                    },
+                    "404": {
+                        "description": "Заметка не найдена"
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["notes"],
+                "summary": "Удалить заметку",
+                "description": "Удаляет заметку пользователя",
+                "operationId": "removeNote",
+                "produces": ["application/json"],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "noteId",
+                        "in": "path",
+                        "description": "ID заметки",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Заметка успешно удалена",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "note": {
+                                    "$ref": "#/definitions/Note"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизован"
+                    },
+                    "404": {
+                        "description": "Заметка не найдена"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Note": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "Уникальный идентификатор заметки"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Название заметки"
+                },
+                "content": {
+                    "type": "string",
+                    "description": "Содержимое заметки"
+                },
+                "createdAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Дата создания"
+                },
+                "updatedAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Дата последнего обновления"
+                },
+                "authorId": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "ID автора заметки"
+                }
+            },
+            "required": ["id", "name", "content", "authorId"]
+        },
+        "CreateNoteDto": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Название заметки"
+                },
+                "content": {
+                    "type": "string",
+                    "description": "Содержимое заметки"
+                }
+            },
+            "required": ["name", "content"]
+        },
+        "UpdateNoteDto": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Название заметки"
+                },
+                "content": {
+                    "type": "string",
+                    "description": "Содержимое заметки"
+                }
+            }
+        },
+        "UserResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "Уникальный идентификатор пользователя"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Имя пользователя"
+                },
+                "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "Email пользователя"
+                }
+            },
+            "required": ["id", "name", "email"]
+        },
+        "LoginDto": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "Email пользователя"
+                },
+                "password": {
+                    "type": "string",
+                    "description": "Пароль пользователя"
+                }
+            },
+            "required": ["email", "password"]
+        },
+        "RegisterDto": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Имя пользователя"
+                },
+                "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "Email пользователя"
+                },
+                "password": {
+                    "type": "string",
+                    "description": "Пароль пользователя"
+                }
+            },
+            "required": ["name", "email", "password"]
+        },
+        "UpdateUserDto": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Имя пользователя"
+                }
+            },
+            "required": ["name"]
+        },
+        "LoginResponse": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "type": "string",
+                    "description": "JWT токен для авторизации"
+                }
+            },
+            "required": ["access_token"]
+        }
+    },
+    "externalDocs": {
+        "description": "Документация проекта",
+        "url": "https://github.com/your-repo/hb-second-brain"
+    }
+}
