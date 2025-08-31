@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import { LoginPage } from '@/pages/LoginPage'
-import RegistrationPage from '@/pages/RegistrationPage.vue'
+import { RegistrationPage } from '@/pages/RegistrationPage'
 import { routeNames } from '@/shared/lib/route-names'
 import HomePage from '@/pages/app/HomePage.vue'
 import NoteListPage from '@/pages/app/NoteListPage.vue'
-import NoteCreatePage from '@/pages/app/NoteCreatePage.vue'
-import NoteEditPage from '@/pages/app/NoteEditPage.vue'
+import { NoteCreatePage } from '@/pages/app/NoteCreatePage'
+import { NoteEditPage } from '@/pages/app/NoteEditPage'
 import ProfilePage from '@/pages/app/ProfilePage.vue'
 
 export const router = createRouter({
@@ -42,6 +42,7 @@ export const router = createRouter({
                     path: '/notes/:noteId',
                     name: routeNames.noteEdit,
                     component: NoteEditPage,
+                    props: true,
                 },
                 {
                     path: '/profile',

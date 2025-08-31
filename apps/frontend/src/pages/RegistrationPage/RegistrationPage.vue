@@ -40,15 +40,15 @@
 <script lang="ts" setup>
 import { CenterLayout } from '@/shared/layouts/CenterLayout'
 import { routeNames } from '@/shared/lib/route-names'
-import { ref } from 'vue'
+import { useRegistrationModel } from './model'
+import { useRouter } from 'vue-router'
 
-const name = ref('')
-const email = ref('')
-const password = ref('')
-const repeatPassword = ref('')
+const { name, email, password, repeatPassword, register } = useRegistrationModel()
 
-function onClickRegister() {
-    console.log('login')
+const router = useRouter()
+async function onClickRegister() {
+    await register()
+    router.push({ name: routeNames.home })
 }
 </script>
 

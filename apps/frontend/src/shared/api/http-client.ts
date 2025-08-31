@@ -6,7 +6,9 @@ export const httpClient = axios.create({
     validateStatus: status => status < 400,
 })
 
-httpClient.interceptors.request.use(config => {
+httpClient.interceptors.request.use(async config => {
+    await new Promise(resolve => setTimeout(resolve, 500))
+
     const token = localStorage.getItem('app/v1/access_token')
 
     if (token) {

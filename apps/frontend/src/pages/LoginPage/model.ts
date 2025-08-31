@@ -1,10 +1,10 @@
-import { useLogin } from '@/features/auth'
+import { authModel } from '@/features/auth'
 import { ref } from 'vue'
 
 export const useLoginModel = () => {
     const email = ref('')
     const password = ref('')
-    const loginModel = useLogin()
+    const loginModel = authModel.useLogin()
 
     async function login() {
         await loginModel.login({

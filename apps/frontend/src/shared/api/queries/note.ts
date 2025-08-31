@@ -1,6 +1,12 @@
-import { useQuery } from '@tanstack/vue-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query'
 import { httpClient } from '../http-client'
-import { getNoteListResponseContract } from '../contracts/note'
+import {
+    createNoteResponseContract,
+    editNoteResponseContract,
+    getNoteDetailResponseContract,
+    getNoteListResponseContract,
+} from '../contracts/note'
+import { Ref, toValue } from 'vue'
 
 export const useNoteListQuery = () => {
     return useQuery({
@@ -13,6 +19,94 @@ export const useNoteListQuery = () => {
             }
 
             return response.data
+        },
+    })
+}
+
+export type NoteDetailParams = {
+    noteId: string
+}
+export const useNoteDetailQuery = (params: Ref<NoteDetailParams>) => {
+    return useQuery({
+        queryKey: ['notes', 'detail', params],
+        queryFn: async () => {
+            const response = await httpClient.get(
+                `/api/v1/notes/${toValue(params).noteId}`,
+            )
+
+            if (!getNoteDetailResponseContract.isData(response.data)) {
+                throw new Error('Invalid response')
+            }
+
+            return response.data
+        },
+    })
+}
+
+export type NoteCreateParams = {
+    name: string
+    content: string
+}
+export const useNoteCreateMutation = () => {
+    const queryClient = useQueryClient()
+
+    return useMutation({
+        mutationFn: async (data: NoteCreateParams) => {
+            const response = await httpClient.post('/api/v1/notes', data)
+
+            if (!createNoteResponseContract.isData(response.data)) {
+                throw new Error('Invalid response')
+            }
+
+            return response.data
+        },
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ['notes'] })
+        },
+    })
+}
+
+export type NoteEditParams = {
+    noteId: string
+    name: string
+    content: string
+}
+export const useNoteEditMutation = () => {
+    const queryClient = useQueryClient()
+
+    return useMutation({
+        mutationFn: async ({ noteId, ...data }: NoteEditParams) => {
+            const response = await httpClient.patch(
+                `/api/v1/notes/${noteId}`,
+                data,
+            )
+
+            if (!editNoteResponseContract.isData(response.data)) {
+                throw new Error('Invalid response')
+            }
+
+            return response.data
+        },
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ['notes'] })
+        },
+    })
+}
+
+export type NoteDeleteParams = {
+    noteId: string
+}
+export const useNoteDeleteMutation = () => {
+    const queryClient = useQueryClient()
+
+    return useMutation({
+        mutationFn: async ({ noteId }: NoteDeleteParams) => {
+            const response = await httpClient.delete(`/api/v1/notes/${noteId}`)
+
+            return response.data
+        },
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ['notes'] })
         },
     })
 }

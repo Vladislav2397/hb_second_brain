@@ -1,9 +1,9 @@
 <template>
     <div :class="$style.root">
-        <h1 :class="$style.title">Create Note</h1>
+        <h1 :class="$style.title">Edit Note</h1>
         <form :class="$style.form">
             <input
-                v-model="title"
+                v-model="name"
                 type="text"
                 name="title"
                 placeholder="Title" />
@@ -14,25 +14,38 @@
                 name="content"
                 placeholder="Content" />
         </form>
+        <p v-if="isPending">Loading...</p>
         <button
             type="submit"
-            @click="onClickCreate">
-            Create
+            @click="onClickSave">
+            Save
+        </button>
+        <button
+            type="submit"
+            @click="onClickRemove">
+            Remove
         </button>
     </div>
 </template>
 
 <script lang="ts" setup>
 import { routeNames } from '@/shared/lib/route-names'
-import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useNoteEditModel } from './model'
 
-const title = ref('')
-const content = ref('')
+const props = defineProps<{
+    noteId: string
+}>()
+
+const { name, content, save, remove, isPending } = useNoteEditModel(props.noteId)
 
 const router = useRouter()
-function onClickCreate() {
-    console.log('create')
+async function onClickSave() {
+    await save()
+    router.push({ name: routeNames.noteList })
+}
+async function onClickRemove() {
+    await remove()
     router.push({ name: routeNames.noteList })
 }
 </script>

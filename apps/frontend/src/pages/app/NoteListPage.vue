@@ -3,6 +3,7 @@
         <h1 :class="$style.title">Notes</h1>
         <div v-if="isError">Error: {{ error?.message }}</div>
         <div v-else-if="isLoading">Loading...</div>
+        <div v-else-if="notes.length === 0">No notes</div>
         <div
             v-else
             :class="$style.list">
