@@ -7,3 +7,9 @@ export const loginResponseContract = C.obj({
 export const registrationResponseContract = C.obj({
     access_token: C.str,
 })
+
+export const meResponseContract = C.obj({
+    id: C.str,
+    name: C.str,
+    email: C.str,
+})

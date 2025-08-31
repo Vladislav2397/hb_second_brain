@@ -12,6 +12,14 @@ export type User = any
 export class UsersService {
     constructor(private readonly prisma: PrismaService) {}
 
+    async findById(id: string) {
+        const user = await this.prisma.user.findUnique({
+            where: { id },
+        })
+
+        return user
+    }
+
     async findOne(email: string) {
         if (!email || email.trim() === '') {
             throw new BadRequestException('Email is required')
@@ -37,6 +45,15 @@ export class UsersService {
     }) {
         const user = await this.prisma.user.create({
             data: registerDto,
+        })
+
+        return user
+    }
+
+    async update(id: string, updateMeDto: { name: string }) {
+        const user = await this.prisma.user.update({
+            where: { id },
+            data: updateMeDto,
         })
 
         return user

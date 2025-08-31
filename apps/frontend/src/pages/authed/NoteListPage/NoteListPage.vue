@@ -22,13 +22,10 @@
 
 <script lang="ts" setup>
 import { NoteCard } from '@/entities/note/ui/NoteCard'
-import { computed } from 'vue'
 import { routeNames } from '@/shared/lib/route-names'
-import { useNoteListQuery } from '@/shared/api/queries/note'
+import { useNoteListModel } from './model'
 
-const { data, isLoading, isError, error } = useNoteListQuery()
-
-const notes = computed(() => data.value?.notes ?? [])
+const { notes, isLoading, isError, error } = useNoteListModel()
 </script>
 
 <style lang="scss" module>

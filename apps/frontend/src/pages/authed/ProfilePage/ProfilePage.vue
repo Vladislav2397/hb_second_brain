@@ -17,15 +17,15 @@
 </template>
 
 <script lang="ts" setup>
-import { routeNames } from '@/shared/lib/route-names'
-import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { routeNames } from '@/shared/lib/route-names'
+import { useProfileModel } from './model'
 
-const name = ref('')
+const { name, save } = useProfileModel()
 
 const router = useRouter()
-function onClickSave() {
-    console.log('save')
+async function onClickSave() {
+    await save()
     router.push({ name: routeNames.home })
 }
 </script>

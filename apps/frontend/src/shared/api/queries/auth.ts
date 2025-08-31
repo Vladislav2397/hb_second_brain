@@ -1,7 +1,8 @@
-import { useMutation } from '@tanstack/vue-query'
+import { useMutation, useQuery } from '@tanstack/vue-query'
 import { httpClient } from '../http-client'
 import {
     loginResponseContract,
+    meResponseContract,
     registrationResponseContract,
 } from '../contracts/auth'
 
@@ -37,6 +38,35 @@ export const useRegistrationMutation = () => {
             )
 
             if (!registrationResponseContract.isData(response.data)) {
+                throw new Error('Invalid response')
+            }
+
+            return response.data
+        },
+    })
+}
+
+export const useMeQuery = () => {
+    return useQuery({
+        queryKey: ['me'],
+        queryFn: async () => {
+            const response = await httpClient.get('/api/v1/auth/me')
+
+            if (!meResponseContract.isData(response.data)) {
+                throw new Error('Invalid response')
+            }
+
+            return response.data
+        },
+    })
+}
+
+export const useMeUpdateMutation = () => {
+    return useMutation({
+        mutationFn: async (data: { name: string }) => {
+            const response = await httpClient.patch('/api/v1/auth/me', data)
+
+            if (!meResponseContract.isData(response.data)) {
                 throw new Error('Invalid response')
             }
 
