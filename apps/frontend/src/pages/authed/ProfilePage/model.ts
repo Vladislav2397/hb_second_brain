@@ -1,23 +1,12 @@
-import { useMeQuery, useMeUpdateMutation } from '@/shared/api/queries/auth'
-import { ref, watch } from 'vue'
+import { useViewer } from '@/entities/viewer/use-viewer'
+import { useMeUpdateMutation } from '@/shared/api/queries/auth'
+import { ref } from 'vue'
 
 export const useProfileModel = () => {
-    const { data, isLoading } = useMeQuery()
+    const { viewer } = useViewer()
     const meUpdateMutation = useMeUpdateMutation()
 
-    const name = ref('')
-
-    watch(
-        data,
-        val => {
-            if (!val) return
-
-            name.value = val.name
-        },
-        {
-            immediate: true,
-        },
-    )
+    const name = ref(viewer.value.name)
 
     function save() {
         return meUpdateMutation.mutateAsync({
@@ -27,7 +16,6 @@ export const useProfileModel = () => {
 
     return {
         name,
-        isLoading,
         save,
     }
 }

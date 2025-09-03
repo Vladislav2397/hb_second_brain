@@ -25,19 +25,35 @@
             </div>
         </aside>
         <main :class="$style.main">
-            <RouterView />
+            <SplashScreen :isLoading="isLoading">
+                <RouterView />
+            </SplashScreen>
         </main>
     </div>
 </template>
 
 <script lang="ts" setup>
+import { useViewerProvider } from '@/entities/viewer/use-viewer'
+import { authModel } from '@/features/auth'
 import { routeNames } from '@/shared/lib/route-names'
 import { useRouter } from 'vue-router'
+import SplashScreen from './SplashScreen.vue'
+import { watch } from 'vue'
+
+const { isLoading, isError } = useViewerProvider()
 
 const router = useRouter()
 
-function onLogout() {
-    console.log('logout')
+watch(isError, (val) => {
+    if (!val) return
+
+    router.push({ name: routeNames.login })
+}, { immediate: true })
+
+const { logout } = authModel.useLogout()
+
+async function onLogout() {
+    await logout()
     router.push({ name: routeNames.login })
 }
 </script>

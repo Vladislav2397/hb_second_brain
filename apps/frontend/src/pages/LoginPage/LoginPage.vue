@@ -41,6 +41,7 @@ import { useLoginModel } from './model'
 const { email, password, login, isPending, isError } = useLoginModel()
 
 const router = useRouter()
+
 async function onClickLogin() {
     await login()
     router.push({ name: routeNames.home })

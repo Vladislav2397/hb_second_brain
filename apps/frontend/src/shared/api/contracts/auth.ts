@@ -13,3 +13,4 @@ export const meResponseContract = C.obj({
     name: C.str,
     email: C.str,
 })
+export type User = C.UnContract<typeof meResponseContract>

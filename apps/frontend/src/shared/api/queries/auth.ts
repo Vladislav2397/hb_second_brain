@@ -5,6 +5,7 @@ import {
     meResponseContract,
     registrationResponseContract,
 } from '../contracts/auth'
+import { useAccessTokenStorage } from '@/shared/lib/use-access-token-storage'
 
 export type LoginParams = {
     email: string
@@ -47,6 +48,8 @@ export const useRegistrationMutation = () => {
 }
 
 export const useMeQuery = () => {
+    const accessToken = useAccessTokenStorage()
+
     return useQuery({
         queryKey: ['me'],
         queryFn: async () => {
@@ -58,6 +61,7 @@ export const useMeQuery = () => {
 
             return response.data
         },
+        enabled: !!accessToken.value,
     })
 }
 

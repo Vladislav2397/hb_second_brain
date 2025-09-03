@@ -13,14 +13,20 @@ export const router = createRouter({
     history: createWebHistory(),
     routes: [
         {
-            path: '/auth/login',
-            name: routeNames.login,
-            component: LoginPage,
-        },
-        {
-            path: '/auth/register',
-            name: routeNames.register,
-            component: RegistrationPage,
+            path: '/auth',
+            redirect: { name: routeNames.login },
+            children: [
+                {
+                    path: 'login',
+                    name: routeNames.login,
+                    component: LoginPage,
+                },
+                {
+                    path: 'register',
+                    name: routeNames.register,
+                    component: RegistrationPage,
+                },
+            ],
         },
         {
             path: '/',

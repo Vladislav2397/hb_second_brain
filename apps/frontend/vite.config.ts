@@ -13,6 +13,12 @@ export default defineConfig((_env: ConfigEnv): UserConfig => {
             port: 5200,
             host: true,
             allowedHosts: true,
+
+        },
+        preview: {
+            port: 5201,
+            host: true,
+            allowedHosts: true,
         },
         resolve: {
             alias: [

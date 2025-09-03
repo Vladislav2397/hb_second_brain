@@ -7,8 +7,11 @@ import {
     getNoteListResponseContract,
 } from '../contracts/note'
 import { Ref, toValue } from 'vue'
+import { useAccessTokenStorage } from '@/shared/lib/use-access-token-storage'
 
 export const useNoteListQuery = () => {
+    const accessToken = useAccessTokenStorage()
+
     return useQuery({
         queryKey: ['notes'],
         queryFn: async () => {
@@ -20,6 +23,7 @@ export const useNoteListQuery = () => {
 
             return response.data
         },
+        enabled: !!accessToken.value,
     })
 }
 
@@ -27,6 +31,8 @@ export type NoteDetailParams = {
     noteId: string
 }
 export const useNoteDetailQuery = (params: Ref<NoteDetailParams>) => {
+    const accessToken = useAccessTokenStorage()
+
     return useQuery({
         queryKey: ['notes', 'detail', params],
         queryFn: async () => {
@@ -40,6 +46,7 @@ export const useNoteDetailQuery = (params: Ref<NoteDetailParams>) => {
 
             return response.data
         },
+        enabled: !!accessToken.value,
     })
 }
 

@@ -6,7 +6,7 @@
     "scripts": {
         "dev": "vite",
         "build": "vue-tsc -b && vite build",
-        "preview": "vite preview",
+        "preview": "npm run build && vite preview",
         "lint": "eslint .",
         "format": "prettier . --write",
         "story:dev": "histoire dev",
@@ -19,6 +19,7 @@
     },
     "dependencies": {
         "@tanstack/vue-query": "^5.85.6",
+        "@vueuse/core": "^13.9.0",
         "@withease/contracts": "^1.1.0",
         "axios": "^1.11.0",
         "es-toolkit": "^1.39.10",
