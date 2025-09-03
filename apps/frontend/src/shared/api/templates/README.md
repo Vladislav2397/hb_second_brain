@@ -13,6 +13,6 @@ Templates:
 - `route-type.ejs` - _(`--route-types` option)_ _(subtemplate)_ (locations: [base](https://github.com/acacode/swagger-typescript-api/tree/main/templates/base/route-type.ejs))
 - `route-types.ejs` - _(`--route-types` option)_ _(subtemplate)_ (locations: [base](https://github.com/acacode/swagger-typescript-api/tree/main/templates/base/route-types.ejs)) - `data-contract-jsdoc.ejs` - _(subtemplate)_ generates JSDOC for data contract (locations: [base](https://github.com/acacode/swagger-typescript-api/tree/main/templates/base/data-contract-jsdoc.ejs))
 
-[//]: # "- `enum-data-contract.ejs` - *(subtemplate)* generates `enum` data contract (locations: [base](https://github.com/acacode/swagger-typescript-api/tree/main/templates/base/enum-data-contract.ejs))"
-[//]: # "- `interface-data-contract.ejs` - *(subtemplate)* generates `interface` data contract (locations: [base](https://github.com/acacode/swagger-typescript-api/tree/main/templates/base/interface-data-contract.ejs))"
-[//]: # "- `type-data-contract.ejs` - *(subtemplate)* generates `type` data contract (locations: [base](https://github.com/acacode/swagger-typescript-api/tree/main/templates/base/type-data-contract.ejs))"
+[//]: # '- `enum-data-contract.ejs` - *(subtemplate)* generates `enum` data contract (locations: [base](https://github.com/acacode/swagger-typescript-api/tree/main/templates/base/enum-data-contract.ejs))'
+[//]: # '- `interface-data-contract.ejs` - *(subtemplate)* generates `interface` data contract (locations: [base](https://github.com/acacode/swagger-typescript-api/tree/main/templates/base/interface-data-contract.ejs))'
+[//]: # '- `type-data-contract.ejs` - *(subtemplate)* generates `type` data contract (locations: [base](https://github.com/acacode/swagger-typescript-api/tree/main/templates/base/type-data-contract.ejs))'

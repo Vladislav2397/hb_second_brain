@@ -404,12 +404,7 @@ export class Api<
          * @response `401` `void` Не авторизован
          */
         findAllNotes: (params: RequestParams = {}) =>
-            this.request<
-                {
-                    notes?: Note[]
-                },
-                void
-            >({
+            this.request<{ notes?: Note[] }, void>({
                 path: `/api/v1/notes`,
                 method: 'GET',
                 secure: true,
@@ -418,20 +413,19 @@ export class Api<
             }),
 
         /**
- * @description Создает новую заметку для текущего пользователя
- *
- * @tags notes
- * @name CreateNote
- * @summary Создать новую заметку
- * @request POST:/api/v1/notes
- * @secure
- * @response `201` `{
-    note?: Note,
-
-}` Заметка успешно создана
- * @response `400` `void` Неверные данные
- * @response `401` `void` Не авторизован
- */
+         * @description Создает новую заметку для текущего пользователя
+         *
+         * @tags notes
+         * @name CreateNote
+         * @summary Создать новую заметку
+         * @request POST:/api/v1/notes
+         * @secure
+         * @response `201` `{
+         *     note?: Note,
+         * }` Заметка успешно создана
+         * @response `400` `void` Неверные данные
+         * @response `401` `void` Не авторизован
+         */
         createNote: (body: CreateNoteDto, params: RequestParams = {}) =>
             this.request<
                 {
@@ -449,20 +443,20 @@ export class Api<
             }),
 
         /**
- * @description Возвращает конкретную заметку пользователя по ID
- *
- * @tags notes
- * @name FindOneNote
- * @summary Получить заметку по ID
- * @request GET:/api/v1/notes/{noteId}
- * @secure
- * @response `200` `{
-    note?: Note,
+        * @description Возвращает конкретную заметку пользователя по ID
+        *
+        * @tags notes
+        * @name FindOneNote
+        * @summary Получить заметку по ID
+        * @request GET:/api/v1/notes/{noteId}
+        * @secure
+        * @response `200` `{
+            note?: Note,
 
-}` Успешная операция
- * @response `401` `void` Не авторизован
- * @response `404` `void` Заметка не найдена
- */
+        }` Успешная операция
+        * @response `401` `void` Не авторизован
+        * @response `404` `void` Заметка не найдена
+        */
         findOneNote: (noteId: string, params: RequestParams = {}) =>
             this.request<
                 {
@@ -478,21 +472,20 @@ export class Api<
             }),
 
         /**
- * @description Обновляет существующую заметку пользователя
- *
- * @tags notes
- * @name UpdateNote
- * @summary Обновить заметку
- * @request PATCH:/api/v1/notes/{noteId}
- * @secure
- * @response `200` `{
-    note?: Note,
-
-}` Заметка успешно обновлена
- * @response `400` `void` Неверные данные
- * @response `401` `void` Не авторизован
- * @response `404` `void` Заметка не найдена
- */
+         * @description Обновляет существующую заметку пользователя
+         *
+         * @tags notes
+         * @name UpdateNote
+         * @summary Обновить заметку
+         * @request PATCH:/api/v1/notes/{noteId}
+         * @secure
+         * @response `200` `{
+                note?: Note,
+            }` Заметка успешно обновлена
+         * @response `400` `void` Неверные данные
+         * @response `401` `void` Не авторизован
+         * @response `404` `void` Заметка не найдена
+        */
         updateNote: (
             noteId: string,
             body: UpdateNoteDto,
@@ -514,20 +507,19 @@ export class Api<
             }),
 
         /**
- * @description Удаляет заметку пользователя
- *
- * @tags notes
- * @name RemoveNote
- * @summary Удалить заметку
- * @request DELETE:/api/v1/notes/{noteId}
- * @secure
- * @response `200` `{
-    note?: Note,
-
-}` Заметка успешно удалена
- * @response `401` `void` Не авторизован
- * @response `404` `void` Заметка не найдена
- */
+         * @description Удаляет заметку пользователя
+         *
+         * @tags notes
+         * @name RemoveNote
+         * @summary Удалить заметку
+         * @request DELETE:/api/v1/notes/{noteId}
+         * @secure
+         * @response `200` `{
+         *     note?: Note,
+         * }` Заметка успешно удалена
+         * @response `401` `void` Не авторизован
+         * @response `404` `void` Заметка не найдена
+         */
         removeNote: (noteId: string, params: RequestParams = {}) =>
             this.request<
                 {
