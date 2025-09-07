@@ -1,6 +1,6 @@
-import { computed, inject, provide, Ref } from "vue"
-import { User } from "@/shared/api/contracts/auth"
-import { useMeQuery } from "@/shared/api/queries/auth"
+import { computed, inject, provide, Ref } from 'vue'
+import { User } from '@/shared/api/contracts/auth'
+import { useMeQuery } from '@/shared/api/queries/auth'
 
 export type Viewer = User
 
