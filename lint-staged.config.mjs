@@ -3,5 +3,5 @@
  * @type {import('lint-staged').Configuration}
  */
 export default {
-    "*.{js,ts,tsx}": ["npm run format", "npm run lint"],
+    "*.{js,ts,tsx}": stagedFiles => ["npm run format", "npm run lint"],
 };
